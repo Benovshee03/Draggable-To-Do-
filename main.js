@@ -7,7 +7,18 @@ $(document).ready(function () {
   });
   $(".cancel_member").on("click", function () {
     $(".adding_new_member").hide();
+    $(".adding_new_member input").val('')
   });
+    //save member part
+    $(".save_member").on("click", function () {
+      // $(".name_member").val() = $(".box__name").html()
+      add()
+      // addmember();
+      $(".adding_new_member input").val('')
+      $(".adding_new_member").hide();
+      $(".new_member").html("New Member");
+      $(".upload").html("Upload Image");
+    });
   //adding item part
   $(".news__item").on("click", function () {
     $(".adding_new_item , main").show();
@@ -15,14 +26,7 @@ $(document).ready(function () {
   $(".cancel").on("click", function () {
     $(".adding_new_item").hide();
   });
-  //save member part
-  $(".save_member").on("click", function () {
-    // $(".name_member").val() = $(".box__name").html()
-    addmember();
-    $(".adding_new_member").hide();
-    $(".new_member").html("New Member");
-    $(".upload").html("Upload Image");
-  });
+
   $(".save").on("click", function () {
     if ($(".adding_new_item").html()) {
       $(".adding_new_item").hide();
@@ -34,12 +38,7 @@ $(document).ready(function () {
 
 
 });
-let members = [
-  { name: "Viverra Diam", avatar: "./icons/Avatar.png" },
-  { name: "Maecenas Lacus", avatar: "./icons/Avatar (1).png" },
-  { name: "Eget Integer", avatar: "./icons/Avatar (2).png" },
-  { name: "Nullam Velit", avatar: "./icons/Avatar (3).png" },
-];
+
 var image;
 var loadFile = function (e) {
   image = $("#output");
@@ -47,31 +46,48 @@ var loadFile = function (e) {
   var text = document.querySelector(".upload");
   text.innerHTML = "";
 };
-function addmember() {
-  var element = document.createElement("img");
-  element.setAttribute("class", "output");
-  document.getElementsByClassName("accounts")[0].append(element);
-  element.src = image.src;
+// function addmember() {
+//   var element = document.createElement("img");
+//   element.setAttribute("class", "output");
+//   document.getElementsByClassName("accounts")[0].append(element);
+//   element.src = image.src;
+// }
+
+
+
+function add() {
+  $.ajax({
+      url: 'http://localhost:3000/members',  // += id
+      type: 'POST', //GET, POST, PUT
+      contentType: 'application/json',
+      // data: data,
+      data:   JSON.stringify({ "name": `${$('.name-member').val()}`,
+          "avatar": "./icons/Avatar.png"} ),
+      // success: function (data) {
+      //     console.log(data);
+      // },
+      // error: function (err) {
+      //     console.log(err);
+      // },
+  });
 }
-var toDos = document.getElementsByClassName("to__do")[0];
-toDos.innerHTML = `
-                    <div class="box__top">
-                        <div class="text">To do</div>
-                        <div class="count"></div>
-                    </div>
-                    <div class="box">
-                            <div class="box__title">Mobile Wireframes</div>
-                            <div class="box__description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque …</div>
-                            <div class="box__name"> ${members[0].name}</div>
-                            <div class="box__line"></div>
-                            <div class="box__bottom">
-                                <div class="box__date"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M10 0.5C4.5 0.5 0 5 0 10.5C0 16 4.5 20.5 10 20.5C15.5 20.5 20 16 20 10.5C20 5 15.5 0.5 10 0.5ZM14.2 14.7L9 11.5V5.5H10.5V10.7L15 13.4L14.2 14.7Z" fill="#1D2D35"/>
-                                    </svg>Mar 4</div>
-                                <div class="box__assigner"><img src="./icons/Avatar (1).png" ></div>
-                        </div>
-                    </div>
-`;
+
+
+// var toDos = document.getElementsByClassName("to__do")[0];
+// toDos.innerHTML = `
+//                     <div class="box">
+//                             <div class="box__title">Mobile Wireframes</div>
+//                             <div class="box__description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque …</div>
+//                             <div class="box__name"> ${members[0].name}</div>
+//                             <div class="box__line"></div>
+//                             <div class="box__bottom">
+//                                 <div class="box__date"><svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+//                                     <path d="M10 0.5C4.5 0.5 0 5 0 10.5C0 16 4.5 20.5 10 20.5C15.5 20.5 20 16 20 10.5C20 5 15.5 0.5 10 0.5ZM14.2 14.7L9 11.5V5.5H10.5V10.7L15 13.4L14.2 14.7Z" fill="#1D2D35"/>
+//                                     </svg>Mar 4</div>
+//                                 <div class="box__assigner"><img src="./icons/Avatar (1).png" ></div>
+//                         </div>
+//                     </div>
+// `;
 
 function addItem() {
   var selectedItems = document.createElement("div");
@@ -84,10 +100,10 @@ function addItem() {
 //   $(".save_member").on("click", function () {
 //     $(".name_member").val() = $(".box__name").html()
 //   });
-//   $(".upload").on("change" , function (){
-//     let newimage = $(".accounts").appendTo("img")
-//     newimage.attr('src', $(".upload").val())
-//   })
+  $(".upload").on("change" , function (){
+    let newimage = $(".accounts").appendTo("img")
+    newimage.attr('src', $(".upload").val())
+  })
 
 //   $(".acoounts").html(`<img src="${`./icons/Avatar.png`}" alt="account__image"/>
 
@@ -127,3 +143,36 @@ function addItem() {
 //         }
 //     });
 // })
+document.querySelectorAll('.box').forEach(item =>
+  item.addEventListener('dragstart', dragStart)
+);
+
+const toDoBox = document.querySelector('.to__do')
+const progressBox=document.querySelector('.in__progress')
+const reviewBox = document.querySelector('.in__review')
+const doneBox = document.querySelector('.done')
+
+var mainBoxes = document.querySelectorAll('.main__box');
+mainBoxes.forEach(box => {
+    box.addEventListener('dragover', dragOver);
+    box.addEventListener('drop', drop);
+});
+function dragStart(event) {
+  event.dataTransfer.setData('text', event.target.id)
+}
+function dragOver(event) {
+  event.preventDefault();  // varsayılan işlemlerini engelle
+  event.dataTransfer.dropEffect = 'move'; // imlecin şeklini değiştir
+  document.title = "dragOver: " + event.target.id;
+}
+function drop(event) {
+
+  event.preventDefault();
+  const droppedItemId = event.dataTransfer.getData('text');
+  // document.title = event.target.id + " - " + droppedItemId;
+  const droppedItem = document.getElementById(droppedItemId);
+
+  if (droppedItem) {
+      event.target.appendChild(droppedItem);
+  }
+}

@@ -286,6 +286,7 @@ select {
   background: #f5f7fb;
   border-radius: 7.68293px;
   border: none;
+  text-indent: 10px;
 }
 .description {
   width: 90%;
@@ -293,6 +294,8 @@ select {
   background: #f5f7fb;
   border-radius: 7.68293px;
   border: none;
+  text-indent: 10px;
+
 }
 .buttons {
   display: flex;
@@ -344,6 +347,7 @@ select {
   border: none;
   background: #f5f7fb;
   border-radius: 7.68293px;
+  text-indent: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
