@@ -1,3 +1,9 @@
+
+//New member
+// 1.db json-a post etsin
+// 2.upload olunan shekili save elesin accaoutun icindeki spanin icine
+// 3.Inputlarin ici dolu olmasa save ede bilmesin
+// 4.
 $(document).ready(function () {
   $(".adding_new_member").hide();
   $(".adding_new_item").hide();
@@ -10,11 +16,49 @@ $(document).ready(function () {
     $(".adding_new_member input").val('')
   });
     //save member part
-    $(".save_member").on("click", function () {
+    $(".save_member").on("click", function (data) {
       // $(".name_member").val() = $(".box__name").html()
-      add()
+      // function add() {
+        $.ajax({
+            url: 'http://localhost:3000/members',  // += id
+            type: 'POST', //GET, POST, PUT
+            contentType: 'application/json',
+            // data: data,
+            body:JSON.stringify({ "name": `${$('.name-member').val()}`,
+                "avatar": "./icons/Avatar.png"} ),
+            // success: function (data) {
+            //     console.log(data);
+            // },
+            // error: function (err) {
+            //     console.log(err);
+            // },
+        });
+        // $.get(`http://localhost:3000/members`)
+        //     .done(function (response) {
+        //       var accounts = document.querySelector(".accounts")
+        //       accounts.innerHTML+=`
+        //       <span><img src="${response.avatar}" alt=""></span>
+        //       `
+        //     })
+        //     .fail(function (err) {
+        //         console.log(err);
+        //     });
+            $.get("http://localhost:3000/members", function(data) {
+            // Her bir üye için döngü oluştur
+            data.forEach(function(member) {
+              // Üye bilgilerini ekranda görüntüle
+              $(".accounts").append(`
+                <span>
+                  <img src="${member.avatar}" alt="${member.name}">
+                </span>
+              `);
+            });
+          });
+      // }
       // addmember();
-      $(".adding_new_member input").val('')
+
+
+
       $(".adding_new_member").hide();
       $(".new_member").html("New Member");
       $(".upload").html("Upload Image");
@@ -39,13 +83,17 @@ $(document).ready(function () {
 
 });
 
-var image;
-var loadFile = function (e) {
-  image = $("#output");
-  image.src = URL.createObjectURL(e.target.files[0]);
-  var text = document.querySelector(".upload");
-  text.innerHTML = "";
-};
+// var image;
+// var loadFile = function (e) {
+//   image = $("#output");
+//   image.src = URL.createObjectURL(e.target.files[0]);
+//   var text = document.querySelector(".upload");
+//   text.innerHTML = "";
+// };
+// $(".upload").on("change" , function (){
+//   let newimage = $(".accounts").appendTo("img")
+//   newimage.attr('src', $(".upload").val())
+// })
 // function addmember() {
 //   var element = document.createElement("img");
 //   element.setAttribute("class", "output");
@@ -55,22 +103,7 @@ var loadFile = function (e) {
 
 
 
-function add() {
-  $.ajax({
-      url: 'http://localhost:3000/members',  // += id
-      type: 'POST', //GET, POST, PUT
-      contentType: 'application/json',
-      // data: data,
-      data:   JSON.stringify({ "name": `${$('.name-member').val()}`,
-          "avatar": "./icons/Avatar.png"} ),
-      // success: function (data) {
-      //     console.log(data);
-      // },
-      // error: function (err) {
-      //     console.log(err);
-      // },
-  });
-}
+
 
 
 // var toDos = document.getElementsByClassName("to__do")[0];
@@ -89,21 +122,18 @@ function add() {
 //                     </div>
 // `;
 
-function addItem() {
-  var selectedItems = document.createElement("div");
-  selectedItems.classList.add("cards");
-  selectedItems.setAttribute("id", "result");
-  document.getElementsByClassName("box")[0].append(selectedItems);
-}
+// function addItem() {
+//   var selectedItems = document.createElement("div");
+//   selectedItems.classList.add("cards");
+//   selectedItems.setAttribute("id", "result");
+//   document.getElementsByClassName("box")[0].append(selectedItems);
+// }
 
 // save member part
 //   $(".save_member").on("click", function () {
 //     $(".name_member").val() = $(".box__name").html()
 //   });
-  $(".upload").on("change" , function (){
-    let newimage = $(".accounts").appendTo("img")
-    newimage.attr('src', $(".upload").val())
-  })
+
 
 //   $(".acoounts").html(`<img src="${`./icons/Avatar.png`}" alt="account__image"/>
 
@@ -143,36 +173,45 @@ function addItem() {
 //         }
 //     });
 // })
-document.querySelectorAll('.box').forEach(item =>
-  item.addEventListener('dragstart', dragStart)
-);
 
-const toDoBox = document.querySelector('.to__do')
-const progressBox=document.querySelector('.in__progress')
-const reviewBox = document.querySelector('.in__review')
-const doneBox = document.querySelector('.done')
 
-var mainBoxes = document.querySelectorAll('.main__box');
-mainBoxes.forEach(box => {
-    box.addEventListener('dragover', dragOver);
-    box.addEventListener('drop', drop);
-});
-function dragStart(event) {
-  event.dataTransfer.setData('text', event.target.id)
-}
-function dragOver(event) {
-  event.preventDefault();  // varsayılan işlemlerini engelle
-  event.dataTransfer.dropEffect = 'move'; // imlecin şeklini değiştir
-  document.title = "dragOver: " + event.target.id;
-}
-function drop(event) {
 
-  event.preventDefault();
-  const droppedItemId = event.dataTransfer.getData('text');
-  // document.title = event.target.id + " - " + droppedItemId;
-  const droppedItem = document.getElementById(droppedItemId);
 
-  if (droppedItem) {
-      event.target.appendChild(droppedItem);
-  }
-}
+
+
+//Draggable---------------------------------------------------
+// document.querySelectorAll('.box').forEach(item =>
+//   item.addEventListener('dragstart', dragStart)
+// );
+
+// const toDoBox = document.querySelector('.to__do')
+// const progressBox=document.querySelector('.in__progress')
+// const reviewBox = document.querySelector('.in__review')
+// const doneBox = document.querySelector('.done')
+
+// var mainBoxes = document.querySelectorAll('.main__box');
+// mainBoxes.forEach(box => {
+//     box.addEventListener('dragover', dragOver);
+//     box.addEventListener('drop', drop);
+// });
+// function dragStart(event) {
+//   event.dataTransfer.setData('text', event.target.id)
+// }
+// function dragOver(event) {
+//   event.preventDefault();  // varsayılan işlemlerini engelle
+//   event.dataTransfer.dropEffect = 'move'; // imlecin şeklini değiştir
+//   document.title = "dragOver: " + event.target.id;
+// }
+// function drop(event) {
+
+//   event.preventDefault();
+//   const droppedItemId = event.dataTransfer.getData('text');
+//   // document.title = event.target.id + " - " + droppedItemId;
+//   const droppedItem = document.getElementById(droppedItemId);
+
+//   if (droppedItem) {
+//       event.target.appendChild(droppedItem);
+//   }
+// }
+
+
