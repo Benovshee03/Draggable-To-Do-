@@ -1,10 +1,29 @@
-{"members" : [
-    { "name": "Viverra Diam",
-     "avatar": "./icons/Avatar.png" },
-    { "name": "Maecenas Lacus",
-     "avatar": "./icons/Avatar (1).png" },
-    { "name": "Eget Integer",
-     "avatar": "./icons/Avatar (2).png" },
-    { "name": "Nullam Velit",
-     "avatar": "./icons/Avatar (3).png" }
-  ]}
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Viverra Diam",
+      "avatar": "./icons/Avatar.png"
+    },
+    {
+      "id": 2,
+      "name": "Maecenas Lacus",
+      "avatar": "./icons/Avatar (1).png"
+    },
+    {
+      "id": 3,
+      "name": "Eget Integer",
+      "avatar": "./icons/Avatar (2).png"
+    },
+    {
+      "id": 4,
+      "name": "Nullam Velit",
+      "avatar": "./icons/Avatar (3).png"
+    },
+    {
+      "name": "Benovshe Maharramova",
+      "avatar": "./icons/Avatar.png",
+      "id": 5
+    }
+  ]
+}

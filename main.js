@@ -7,66 +7,51 @@
 $(document).ready(function () {
   $(".adding_new_member").hide();
   $(".adding_new_item").hide();
+  
   // adding members
   $(".add__member").on("click", function () {
     $(".adding_new_member").show();
   });
+  
   $(".cancel_member").on("click", function () {
     $(".adding_new_member").hide();
-    $(".adding_new_member input").val('')
+    $(".adding_new_member input").val('');
   });
-    //save member part
-    $(".save_member").on("click", function (data) {
-      // $(".name_member").val() = $(".box__name").html()
-      // function add() {
-        $.ajax({
-            url: 'http://localhost:3000/members',  // += id
-            type: 'POST', //GET, POST, PUT
-            contentType: 'application/json',
-            // data: data,
-            body:JSON.stringify({ "name": `${$('.name-member').val()}`,
-                "avatar": "./icons/Avatar.png"} ),
-            // success: function (data) {
-            //     console.log(data);
-            // },
-            // error: function (err) {
-            //     console.log(err);
-            // },
-        });
-        // $.get(`http://localhost:3000/members`)
-        //     .done(function (response) {
-        //       var accounts = document.querySelector(".accounts")
-        //       accounts.innerHTML+=`
-        //       <span><img src="${response.avatar}" alt=""></span>
-        //       `
-        //     })
-        //     .fail(function (err) {
-        //         console.log(err);
-        //     });
-            $.get("http://localhost:3000/members", function(data) {
-            // Her bir üye için döngü oluştur
-            data.forEach(function(member) {
-              // Üye bilgilerini ekranda görüntüle
-              $(".accounts").append(`
-                <span>
-                  <img src="${member.avatar}" alt="${member.name}">
-                </span>
-              `);
-            });
-          });
-      // }
-      // addmember();
 
+  // save member part
+  $(".save_member").on("click", function () {
+    var memberData = {
+      "name": $('.name_member').val(),
+      "avatar": "./icons/Avatar.png"
+    };
 
-
-      $(".adding_new_member").hide();
-      $(".new_member").html("New Member");
-      $(".upload").html("Upload Image");
+    $.ajax({
+      url: 'http://localhost:3000/members',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(memberData),
+      success: function (data) {
+        console.log(data);
+        // Burada gelen veriyi işleyebilirsiniz
+      },
+      error: function (err) {
+        console.log(err);
+      },
     });
-  //adding item part
-  $(".news__item").on("click", function () {
-    $(".adding_new_item , main").show();
+
+    // İsteği gönderdikten sonra üyeleri yeniden yükle
+    loadMembers();
+    
+    $(".adding_new_member").hide();
+    $(".new_member").html("New Member");
+    $(".upload").html("Upload Image");
   });
+
+  // Adding item part
+  $(".news__item").on("click", function () {
+    $(".adding_new_item, main").show();
+  });
+  
   $(".cancel").on("click", function () {
     $(".adding_new_item").hide();
   });
@@ -76,12 +61,46 @@ $(document).ready(function () {
       $(".adding_new_item").hide();
     }
   });
+
   $(".cancel").on("click", function () {
     $(".adding_new_item").hide();
   });
 
+  // Üyeleri yükleme işlemi
+  function loadMembers() {
+    $.get("http://localhost:3000/members", function (data) {
+      $(".accounts").empty(); // Önceki üyeleri temizle
+      // Her bir üye için döngü oluştur
+      data.forEach(function (member) {
+        // Üye bilgilerini ekranda görüntüle
+        $(".accounts").append(`
+          <span>
+            <img src="${member.avatar}" alt="${member.name}">
+          </span>
+        `);
+  $('#name').append(
+    `<option value="">${member.name}</option>`
+    )
+      });
+    });
+  }
+
+  // Sayfa yüklendiğinde üyeleri yükle
+  loadMembers();
+  $(".upload").on("change", function () {
+    var input = this;
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var image = $("<img>").attr("src", e.target.result);
+        $(".accounts").append(image);
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
 
 });
+
 
 // var image;
 // var loadFile = function (e) {
@@ -90,10 +109,7 @@ $(document).ready(function () {
 //   var text = document.querySelector(".upload");
 //   text.innerHTML = "";
 // };
-// $(".upload").on("change" , function (){
-//   let newimage = $(".accounts").appendTo("img")
-//   newimage.attr('src', $(".upload").val())
-// })
+
 // function addmember() {
 //   var element = document.createElement("img");
 //   element.setAttribute("class", "output");

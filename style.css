@@ -159,7 +159,7 @@ main.active{
 }
 .boxes {
   width: 92.2%;
-  height: 900px;
+  /* height: 900px; */
   display: grid;
   gap: 18px;
   grid-template-columns: 1fr 1fr 1fr 1fr;

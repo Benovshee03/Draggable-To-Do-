@@ -107,15 +107,17 @@
         </main>
         <div class="adding_new_item">
             <div class="item">New Item</div>
-            <input type="text" placeholder="Name" class="name">
+            <!-- <input type="text" placeholder="Name" class="name"> -->
+            <select name="name" id="name">
+                <option value="">Name</option>
+            </select>
             <input type="text" placeholder="Description" class="description">
             <input type="date" class="date">
             <select name="Assigne" class="assign" >
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
-                <option value=""></option>
+                <option value="">To Do</option>
+                <option value="">In progress</option>
+                <option value="">In review</option>
+                <option value="">Done</option>
             </select>
             <div class="buttons">
                 <button class="cancel" >Cancel</button>
@@ -126,8 +128,8 @@
             <div class="new_member">New Member</div>
             <input type="text" placeholder="Name" class="name_member" required>
             <div class="imageUpload">
-                <input type="file"   accept="image/*" name="image" id="file"  onchange="loadFile(event)" style="display: none;">
-                <label  class="upload" for="file" style="cursor: pointer;">Upload Image</label>
+                <input type="file"   accept="image/*" name="image" id="file"   style="display: none;">
+                <label  class="upload" for="file" style="cursor: pointer;" >Upload Image</label>
                 <img id="output" width="54px" />
             </div>
                 <div class="buttons_member">
