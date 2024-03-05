@@ -223,7 +223,7 @@ main.active{
 .box__name {
   margin-top: 12px;
   width: 138px;
-  height: 26px;
+  height: auto;
   background: #0013fe;
   border-radius: 5px;
   color: white;
@@ -244,6 +244,7 @@ main.active{
   display: flex;
   justify-content: space-between;
   align-items: center;
+
 }
 .box__date {
   display: flex;
